@@ -1,0 +1,16 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" class="content">
+    <div>
+      <img src="./assets/icons/book.png" alt="logo" />
+    </div>
+    <lib-inputs [data]="data[0]" [control]="loginForm.controls['emial']" (showInputType)="showInputType($event)">
+      <mat-icon>alternate_email</mat-icon>
+    </lib-inputs>
+    <lib-inputs [data]="data[1]" [control]="loginForm.controls['password']" (showInputType)="showInputType($event)">
+      <mat-icon>remove_red_eye</mat-icon>
+    </lib-inputs>
+    <ng-container>
+      <button mat-raised-button [disabled]="!loginForm.valid" (click)="logIn()">Zaloguj</button>
+    </ng-container>
+  </form>
+</div>

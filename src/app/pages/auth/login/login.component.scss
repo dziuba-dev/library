@@ -1,0 +1,37 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .content {
+    text-align: center;
+    border: 3px solid black;
+    width: 400px;
+    padding: 20px;
+    border-radius: 25px;
+    background: white;
+    display: grid;
+    justify-content: center;
+
+    img {
+      width: 100px;
+      padding: 30px;
+    }
+
+    .form-field {
+      width: 200px;
+    }
+
+    .invalid-message {
+      color: red;
+    }
+  }
+}
+
+/* Zmiana koloru mat-raised-button i mat-flat-button */
+.mat-raised-button.mat-green, .mat-flat-button.mat-green {
+  background-color: green;
+  color: white;
+}
+

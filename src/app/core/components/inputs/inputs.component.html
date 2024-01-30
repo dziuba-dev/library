@@ -1,0 +1,10 @@
+<ng-container>
+  <mat-form-field class="form-field">
+    <mat-label>{{ data.property | titlecase}}</mat-label>
+    <div *ngIf="isFormControl(control)" class="d-flex space-around">
+      <input matInput [type]="data.inputType" [formControl]="control" (focus)="showInputType.emit(data.inputType)">
+      <ng-content></ng-content>
+    </div>
+    <mat-error *ngIf="control.hasError('required')">Pole jest wymagane!</mat-error>
+  </mat-form-field>
+</ng-container>

@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edytuj książkę' : 'Dodaj nową książkę' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="addBookForm">
+    <mat-form-field>
+      <mat-label>Tytuł</mat-label>
+      <input matInput type="text" formControlName="name">
+      <mat-error *ngIf="addBookForm.controls['name'].hasError('required')">Pole jest wymagane!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Autor</mat-label>
+      <input matInput type="text" formControlName="author">
+      <mat-error *ngIf="addBookForm.controls['author'].hasError('required')">Pole jest wymagane!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Kategoria</mat-label>
+      <input matInput type="text" formControlName="category">
+      <mat-error *ngIf="addBookForm.controls['category'].hasError('required')">Pole jest wymagane!</mat-error>
+    </mat-form-field>
+    <mat-checkbox class="margin" formControlName="isAvailable" color="primary">Czy jest dostępna?</mat-checkbox>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close color="accent">Anuluj</button>
+  <button mat-raised-button (click)="isEditMode ? editBook() : addBook()">
+    {{ isEditMode ? 'Zapisz zmiany' : 'Dodaj' }}
+  </button>
+</mat-dialog-actions>
