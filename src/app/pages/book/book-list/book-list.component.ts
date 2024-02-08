@@ -6,8 +6,7 @@ import {BookService} from "../../../core/services/book.service";
 import {Subscription} from "rxjs";
 import {AddEditBookComponent} from "./add-edit-book/add-edit-book.component";
 import {MatDialog} from "@angular/material/dialog";
-import * as _ from 'lodash';
-import {MatTableDataSource} from "@angular/material/table";
+import {MatTableDataSource, MatTableDataSourcePaginator} from "@angular/material/table";
 
 @Component({
   selector: 'lib-book-list',
@@ -17,55 +16,62 @@ import {MatTableDataSource} from "@angular/material/table";
 export class BookListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['id', 'name', 'author', 'category', 'isAvailable', 'actions'];
   dataSource = new MatTableDataSource<Book>();
-
-  subscription!: Subscription;
+  private subscriptions = new Subscription();
 
   constructor(
-    private _authService: AuthService,
-    private _snackBar: MatSnackBar,
-    private _bookService: BookService,
-    private _dialog: MatDialog
+    private snackBar: MatSnackBar,
+    private bookService: BookService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this._authService.loginStatus$.subscribe(item => this._snackBar.open(item, "OK"));
     this.getBooks();
-    this._bookService.booksSubject$.subscribe(item => {
-      if (item) {
-        this.getBooks();
-      }
-    })
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 
   getBooks() {
-    this.subscription = this._bookService.getBooks().subscribe(
-      (book: Book[]) => {
-        _.cloneDeep(this.dataSource);
-        this.dataSource.data = book;
+    this.subscriptions.add(
+      this.bookService.getBooks().subscribe(
+        (books: Book[]) => this.dataSource.data = books,
+        error => this.snackBar.open('Błąd podczas ładowania książek.', 'Zamknij', { duration: 2000 })
+      )
+    );
+  }
+
+  addBook() {
+    const dialogRef = this.dialog.open(AddEditBookComponent, {
+      width: '750px',
+    });
+
+    this.subscriptions.add(dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getBooks(); // Odświeżenie listy książek po dodaniu
       }
-    )
+    }));
   }
 
   editBook(book: Book) {
-    const dialogRef = this._dialog.open(AddEditBookComponent, {
+    const dialogRef = this.dialog.open(AddEditBookComponent, {
       width: '750px',
       data: book
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.getBooks();
-    });
-
+    this.subscriptions.add(dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getBooks(); // Odświeżenie listy książek po edycji
+      }
+    }));
   }
 
   deleteBook(bookId: string) {
-    this._bookService.removeBook(bookId);
-    this.getBooks();
+    const sub = this.bookService.removeBook(bookId).subscribe(() => {
+      this.getBooks(); // Odświeżenie listy książek po usunięciu
+      this.snackBar.open('Książka usunięta', 'Zamknij', { duration: 2000 });
+    }, error => this.snackBar.open('Błąd podczas usuwania książki.', 'Zamknij', { duration: 2000 }));
+
+    this.subscriptions.add(sub);
   }
 }

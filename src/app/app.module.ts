@@ -8,7 +8,7 @@ import {AuthModule} from "./pages/auth/auth.module";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -16,7 +16,6 @@ import {AuthModule} from "./pages/auth/auth.module";
     AppRoutingModule,
     AuthModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

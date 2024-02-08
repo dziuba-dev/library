@@ -16,12 +16,12 @@
       <input matInput type="text" formControlName="category">
       <mat-error *ngIf="addBookForm.controls['category'].hasError('required')">Pole jest wymagane!</mat-error>
     </mat-form-field>
-    <mat-checkbox class="margin" formControlName="isAvailable" color="primary">Czy jest dostępna?</mat-checkbox>
+    <mat-checkbox formControlName="isAvailable" color="primary">Czy jest dostępna?</mat-checkbox>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close color="accent">Anuluj</button>
-  <button mat-raised-button (click)="isEditMode ? editBook() : addBook()">
+  <button mat-raised-button color="primary" [disabled]="!addBookForm.valid" (click)="isEditMode ? editBook() : addBook()">
     {{ isEditMode ? 'Zapisz zmiany' : 'Dodaj' }}
   </button>
 </mat-dialog-actions>

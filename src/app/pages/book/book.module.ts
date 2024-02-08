@@ -8,19 +8,25 @@ import {MaterialModule} from "../../core/material/material.module";
 import {BookService} from "../../core/services/book.service";
 import { AddEditBookComponent } from './book-list/add-edit-book/add-edit-book.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+import {HighlightAvailableDirective} from "../../core/directives/highlight-available.directive";
+import {CapitalizePipe} from "../../core/pipes/capitalize.pipe";
 
 @NgModule({
   declarations: [
     BookListComponent,
     BookComponent,
-    AddEditBookComponent
+    AddEditBookComponent,
+    HighlightAvailableDirective,
+    CapitalizePipe,
   ],
   imports: [
     CommonModule,
     BookRoutingModule,
     SharedModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [BookService]
 })

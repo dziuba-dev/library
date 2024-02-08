@@ -12,7 +12,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 export class AddEditBookComponent {
   isEditMode = false;
   addBookForm = new FormGroup({
-    id: new FormControl('', Validators.required),
+    id: new FormControl(''),
     name: new FormControl('', Validators.required),
     author: new FormControl('', Validators.required),
     category: new FormControl('', Validators.required),
@@ -20,7 +20,7 @@ export class AddEditBookComponent {
   });
 
   constructor(
-    private _bookService: BookService,
+    private bookService: BookService,
     private dialogRef: MatDialogRef<AddEditBookComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: Book) {
     if (this.data) {
@@ -38,14 +38,17 @@ export class AddEditBookComponent {
       isAvailable: this.addBookForm.controls['isAvailable'].value ?? false
     } as Book;
 
-    this._bookService.addBook(book);
+    this.bookService.addBook(book).subscribe(() => {
+      this.dialogRef.close(true); // Możesz przekazać 'true', aby wskazać, że edycja książki się powiodła
+    });
     this.dialogRef.close();
   }
 
   editBook() {
     const book = { ...this.data, ...this.addBookForm.value } as Book;
-    this._bookService.editBook(book);
-    this.dialogRef.close();
+    this.bookService.editBook(book).subscribe(() => {
+      this.dialogRef.close(true); // Możesz przekazać 'true', aby wskazać, że edycja książki się powiodła
+    });
   }
 
   generateGUID(): string {

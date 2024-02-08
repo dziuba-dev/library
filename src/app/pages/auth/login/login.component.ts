@@ -21,18 +21,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     public fb: FormBuilder,
-    private _authService: AuthService,
-    private _coreService: CoreService,
-    private _snackBar: MatSnackBar,
-    private _router: Router) {
+    private authService: AuthService,
+    private coreService: CoreService,
+    private snackBar: MatSnackBar,
+    private router: Router) {
     this.loginForm = fb.group({
-      emial: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
   ngOnInit() {
-    this.subscription = this._coreService.getData().subscribe((res: Data[]) => {
+    this.subscription = this.coreService.getData().subscribe((res: Data[]) => {
       this.data = res;
     })
   }
@@ -44,21 +44,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   showInputType(inputTyp: InputType) {
-    this._snackBar.open(inputTyp, "OK");
+    this.snackBar.open(inputTyp, "OK");
   }
 
   logIn() {
     const credentials = {
-      emial: this.loginForm.controls['login'].value,
+      email: this.loginForm.controls['email'].value,
       password: this.loginForm.controls['password'].value
     } as User;
-    this._authService.login(credentials)
+    this.authService.login(credentials)
       .subscribe(
         (isAuthorize: boolean) => {
           if (isAuthorize) {
-            this._router.navigate(['/book/list']);
+            this.router.navigate(['/book/list']);
           } else {
-            this._snackBar.open("Błąd logowania.", "OK");
+            this.snackBar.open("Błąd logowania.", "OK");
           }
         }
       );

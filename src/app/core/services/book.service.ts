@@ -1,36 +1,27 @@
 import { Injectable } from '@angular/core';
 import {Book} from "../models/book";
 import {Observable, of, Subject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class BookService {
-  private booksSubject = new Subject<boolean>();
+  private apiUrl = 'http://localhost:3000/books'; // URL do API
 
-  booksSubject$ = this.booksSubject.asObservable();
-
-  books: Book[] = [];
+  constructor(private http: HttpClient) { }
 
   getBooks(): Observable<Book[]> {
-    return of(this.books);
+    return this.http.get<Book[]>(this.apiUrl);
   }
 
-  addBook(book: Book) {
-    this.books.push(book);
-    this.booksSubject.next(true);
+  addBook(book: Book): Observable<Book> {
+    return this.http.post<Book>(`${this.apiUrl}`, book);
   }
 
-  editBook(book: Book) {
-    this.books.forEach(item => {
-      if (item.id === book.id) {
-        item.name = book.name;
-        item.author = book.author;
-        item.category = book.category;
-        item.isAvailable = book.isAvailable
-      }
-    });
+  editBook(book: Book): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${book.id}`, book);
   }
 
-  removeBook(id: string) {
-    this.books = this.books.filter(item => item.id !== id);
+  removeBook(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

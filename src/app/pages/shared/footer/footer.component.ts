@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AuthService} from "../../../core/services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'lib-footer',
@@ -7,10 +8,11 @@ import {AuthService} from "../../../core/services/auth.service";
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
-  constructor(private _authService: AuthService) {
+  constructor(private authService: AuthService) {
   }
 
   logout() {
-    this._authService.logout();
+    this.authService.logout();
+    window.location.reload();
   }
 }

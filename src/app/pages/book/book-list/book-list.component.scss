@@ -1,7 +1,19 @@
 mat-table {
-  width: 100%;
+  margin: 25px;
+  height: 70%;
+  overflow-y: scroll;
 }
 
 mat-header-cell, mat-cell {
   padding: 8px;
+}
+
+.mdc-data-table__table {
+  min-width: unset;
+}
+
+.button-position {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
 }

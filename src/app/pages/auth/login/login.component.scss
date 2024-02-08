@@ -18,20 +18,6 @@
       width: 100px;
       padding: 30px;
     }
-
-    .form-field {
-      width: 200px;
-    }
-
-    .invalid-message {
-      color: red;
-    }
   }
-}
-
-/* Zmiana koloru mat-raised-button i mat-flat-button */
-.mat-raised-button.mat-green, .mat-flat-button.mat-green {
-  background-color: green;
-  color: white;
 }
 

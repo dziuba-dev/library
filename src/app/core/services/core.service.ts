@@ -9,7 +9,7 @@ export class CoreService {
     return of(
       [
         {
-          property: 'emial',
+          property: 'email',
           inputType: InputType.EMAIL,
           value: ''
         },

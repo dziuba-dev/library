@@ -12,8 +12,8 @@ export class AuthService {
   loginStatus$ = this.loginStatusSubject.asObservable();
 
   login(credentials: User): Observable<boolean> {
-    if (credentials.emial === 'admin@book.pl' && credentials.password === 'B0oK') {
-      localStorage.setItem('currentUser', credentials.emial);
+    if (credentials.email === 'admin@book.pl' && credentials.password === 'B0oK') {
+      localStorage.setItem('currentUser', credentials.email);
       this.sendLoginStatus("Poprawnie zalogowany użytkownik!");
       return of(true);
     } else {
